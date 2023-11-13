@@ -6,7 +6,8 @@ import pyshorteners
 # Create a title and a text input for the URL
 st.set_page_config(layout="centered")
 st.title("URL Checker and Shortener")
-st.markdown("Enter lengthy url to check status & get short url to use.")
+with st.expander("About"):
+    st.write("Enter lengthy url to check status & get short url to use.")
 
 url = st.text_input("Enter a URL to check and shorten:")
 
