@@ -4,11 +4,7 @@
 
 name: Build and deploy Python app to Azure Web App - streamlitapp21
 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+on: [workflow_dispatch]
 
 jobs:
   build:
@@ -28,7 +24,7 @@ jobs:
           source venv/bin/activate
       
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r url-shortner/requirements.txt
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
@@ -43,13 +39,9 @@ jobs:
             release.zip
             !venv/
 
-  deploy:
+  download-artifact:
     runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    
+    needs: build  
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
@@ -59,11 +51,7 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip release.zip
 
-      
-      - name: 'Deploy to Azure Web App'
-        uses: azure/webapps-deploy@v2
-        id: deploy-to-webapp
-        with:
-          app-name: 'streamlitapp21'
-          slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D5BF1A384653478B919DDD28D2E891D1 }}
+      - name: List downloaded artifact
+        run: |
+          ls -a
+          ls release/*
