@@ -47,7 +47,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: python-app
-
       - name: Unzip artifact for deployment
         run: unzip release.zip
         working-directory: release
@@ -55,3 +54,4 @@ jobs:
       - name: List downloaded artifact
         run: |
           ls -a
+          ls release/*
