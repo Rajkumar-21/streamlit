@@ -50,8 +50,8 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
+        working-directory: release
 
       - name: List downloaded artifact
         run: |
           ls -a
-          ls release/*
